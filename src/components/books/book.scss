@@ -1,0 +1,18 @@
+.book-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+
+  padding: 10px;
+
+  .title {
+    flex-direction: column;
+    div {
+      width: 128px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
