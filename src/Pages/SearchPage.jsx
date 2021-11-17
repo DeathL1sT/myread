@@ -7,11 +7,34 @@ const SearchPage = ({ books, onUpdateShelf }) => {
   const [bookSearch, setBookSearch] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  const HandelChange = (book, shelf) => {
+  const handelChangeShelf = (book, shelf) => {
     onUpdateShelf(book, shelf);
     setBookSearch(
       bookSearch.map((b) => (b.id === book.id ? { ...book, shelf } : b))
     );
+  };
+
+  const handleChangeText = async (e) => {
+    setSearchText(e.target.value);
+
+    try {
+      const data = await search(e.target.value);
+
+      if (data === undefined) {
+        setBookSearch([]);
+        return;
+      }
+
+      setBookSearch(
+        data.map((book) => {
+          const selectedBook = books.find((b) => b.id === book.id);
+          book.shelf = selectedBook ? selectedBook.shelf : "none";
+          return book;
+        })
+      );
+    } catch {
+      setBookSearch([]);
+    }
   };
 
   return (
@@ -20,30 +43,13 @@ const SearchPage = ({ books, onUpdateShelf }) => {
         placeholder="Search by title or author"
         type="text"
         value={searchText}
-        onChange={(e) => {
-          setSearchText(e.target.value);
-          search(e.target.value)
-            .then((data) => {
-              if (data === undefined) {
-                return;
-              }
-
-              setBookSearch(
-                data.map((book) => {
-                  const selectedBook = books.find((b) => b.id === book.id);
-                  book.shelf = selectedBook ? selectedBook.shelf : "none";
-                  return book;
-                })
-              );
-            })
-            .catch(() => setBookSearch([]));
-        }}
+        onChange={handleChangeText}
       ></input>
       <div className="section">
         <Section
           title="Search Results"
           books={bookSearch}
-          onUpdateShelf={HandelChange}
+          onUpdateShelf={handelChangeShelf}
         />
       </div>
       <Link to="/">

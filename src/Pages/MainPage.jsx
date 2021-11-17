@@ -4,7 +4,7 @@ import Header from "../components/Header/Header";
 import Section from "../components/section/Section";
 import { Link } from "react-router-dom";
 import "./mainpage.scss";
-import SearchPage from "./SearchPage";
+
 const MainPage = ({ books, onUpdateShelf }) => {
   return (
     <div className="main">

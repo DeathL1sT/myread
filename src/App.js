@@ -4,6 +4,7 @@ import { getAll, update } from "./BooksAPI";
 import MainPage from "./Pages/MainPage";
 import { Switch, Route } from "react-router-dom";
 import SearchPage from "./Pages/SearchPage";
+import NotFoundPage from "./Pages/NotFoundPage";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -31,6 +32,9 @@ function App() {
         </Route>
         <Route path="/search">
           <SearchPage books={books} onUpdateShelf={onUpdateShelf} />
+        </Route>
+        <Route>
+          <NotFoundPage/>
         </Route>
       </Switch>
     </div>
